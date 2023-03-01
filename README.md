@@ -10,7 +10,7 @@ Index Nested Loops Join is used to join two relations using an index on the join
 
 Before the INLJ iterator is initialized in the Driver Function, we check for the availability of any index file on the join attribute of the inner relation. In the absence of any desired index file on the desired inner relation field, the join call defaultstoNestedLoopJoin. Incaseofanydesiredindexfileavailabilityonthe desired inner relation field, Index Nested Loop Join is performed based on the order of index file preference. The preference of indices based on different join conditions can be found in the later part of this sub section.
 
-![INLJ Architecture](/Minibase_Implementation/assets/images/INLJ.png)
+![INLJ Architecture](assets/images/INLJ.png)
 
 Once the INLJ iterator has been initialized, the get_next() on this INLJ object will do the following. For every outer relation tuple, an index scan with the join condition (modified by replacing the outer relation symbol of the condition with respective join field values of the current outer relation tuple) is started on the available/preferred join attribute index. The get_next() call on this respective index scan object returns only the inner relation tuples that satisfy the join condition (with respect to the current outer relation tuple’s join attribute value). When this get_next() returns null, the next outer relation tuple is picked and a new index scan with respective join condition values is started. This is continued until the last outer relation tuple and all its inner relation tuples satisfying the condition have been scanned and joined. This indicates the end of the join and the get_next() call on INLJ object (from driver function) returns null.
 
@@ -21,7 +21,7 @@ Although INLJ seems to reduce the total join cost, it comes with an additional c
 Where, ILC -> Index Lookup Cost on inner join attribute index.
 It is imperative to note that ‘N’, ‘Y’ and ‘join condition’ all play an implicit role on this overall cost, specific to each join, even though they are not included in the general cost formula. The join condition can be specified by any one of the following five operators.
 
-![Table](/Minibase_Implementation/assets/images/Table.png)
+![Table](assets/images/Table.png)
 
 The ‘ILC’ (Index lookup cost) for retrieving inner tuples depends on the type of index available on the join attribute(s) of that relation. The four different types of indices considered in this project and their order of preference based on join condition are listed below.
 - Clustered BTree Index,
